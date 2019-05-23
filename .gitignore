@@ -1,3 +1,7 @@
 *.pyc
 *.egg-info
 .venv
+**/*/report/auto
+**/*/report/*.aux
+**/*/report/*.log
+**/*/report/*.synctex.gz
