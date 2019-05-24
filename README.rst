@@ -13,7 +13,7 @@ After installing ``poetry``, navigate to the directory with the ``pyproject.toml
    poetry install                          # Setup virtualenv and install dependencies
    poetry run python -m spacy download en  # Download the English language model for spacy
    poetry run pytest tests                 # Run tests and ensure everything is working
-   poetry run main                         # Run the main
+   poetry run main                         # Run the main application
 
 Setup using ``pip``
 -----------------
@@ -33,8 +33,8 @@ After all the dependencies have been installed, you may run the tests or execute
 
 .. code:: sh
 
-   pytest tests  # Run tests and ensure everything is working
-   python music_qa/main.py
+   pytest tests            # Run tests and ensure everything is working
+   python music_qa/main.py # Run the main application
 
 .. |Python Versions| image:: https://img.shields.io/badge/python-3.5-blue.svg
 .. _pyproject.toml: ./pyproject.toml
