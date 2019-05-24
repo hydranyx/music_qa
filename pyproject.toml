@@ -6,6 +6,7 @@ authors = ["prime <jordis1995@live.nl>"]
 
 [tool.poetry.dependencies]
 python = "^3.5"
+spacy = "^2.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"
