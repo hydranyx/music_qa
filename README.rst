@@ -1,5 +1,6 @@
 Language Speech Technology: Music QA System
 ===========================================
+|Python Versions|
 
 This project was setup using `poetry`_. You can setup the dependencies specified in the `pyproject.toml`_ file manually, but using `poetry` is recommended.
 
@@ -28,5 +29,6 @@ After installing `spacy`, don't forget to download the English language model.
 
    python -m spacy download en
 
+.. |Python Versions| image:: https://img.shields.io/badge/python-3.5-blue.svg
 .. _pyproject.toml: ./pyproject.toml
 .. _poetry: https://poetry.eustace.io/
