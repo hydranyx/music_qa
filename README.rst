@@ -2,11 +2,11 @@ Language Speech Technology: Music QA System
 ===========================================
 |Python Versions|
 
-This project was setup using `poetry`_. You can setup the dependencies specified in the `pyproject.toml`_ file manually, but using `poetry` is recommended.
+This project was setup using `poetry`_. You can setup the dependencies specified in the `pyproject.toml`_ file manually, but using ``poetry`` is recommended.
 
-Setup using `poetry`
+Setup using ``poetry``
 --------------------
-After installing `poetry`, navigate to the directory with the `pyproject.toml` file. Then execute the following:
+After installing ``poetry``, navigate to the directory with the ``pyproject.toml`` file. Then execute the following:
 
 .. code:: sh
 
@@ -15,15 +15,15 @@ After installing `poetry`, navigate to the directory with the `pyproject.toml` f
    poetry run pytest tests                 # Run tests and ensure everything is working
    poetry run main                         # Run the main
 
-Setup using `pip`
+Setup using ``pip``
 -----------------
-Install the dependencies (specifying the correct versions) via `pip`
+Install the dependencies (specifying the correct versions) via ``pip``
 
 .. code:: sh
 
    pip install --user dependency==X.X.X  # Install some dependency with the version X.X.X
 
-After installing `spacy`, don't forget to download the English language model.
+After installing ``spacy``, don't forget to download the English language model.
    
 .. code:: sh
 
