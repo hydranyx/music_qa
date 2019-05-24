@@ -29,6 +29,13 @@ After installing ``spacy``, don't forget to download the English language model.
 
    python -m spacy download en
 
+After all the dependencies have been installed, you may run the tests or execute the main application.
+
+.. code:: sh
+
+   pytest tests  # Run tests and ensure everything is working
+   python music_qa/main.py
+
 .. |Python Versions| image:: https://img.shields.io/badge/python-3.5-blue.svg
 .. _pyproject.toml: ./pyproject.toml
 .. _poetry: https://poetry.eustace.io/
