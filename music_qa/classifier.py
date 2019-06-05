@@ -18,12 +18,14 @@ class Question:
 		self.question = question
 		self.question_type = QuestionType.BASE
 		self.nlp = nlp
+		self.determine_type()
 	
 	def determine_type(self):
 		result = self.nlp(self.question)
+		entities = []
 
 		# HIGHEST Question
-		m = re.search('(?:highest|lowest|first|last|oldest|youngest)', self.question, re.IGNORECASE)
+		m = re.search('(?:highest|lowest|first|last|oldest|youngest|earliest|latest)', self.question, re.IGNORECASE)
 		if m is not None  and self.question_type is QuestionType.BASE:
 			self.question_type = QuestionType.HIGHEST
 
@@ -37,34 +39,34 @@ class Question:
 			self.question_type = QuestionType.COUNT		
 
 		# DESCRIPTION Question
-		m = re.search('(?:What) (?:is|are)', self.question, re.IGNORECASE)
-		if m is not None  and self.question_type is QuestionType.BASE:
-			self.question_type = QuestionType.DESCRIPTION		
+		# TODO IN LIST
 
 		# LIST Question
 		m = re.search('(?:What|Who|Where|When)', self.question, re.IGNORECASE)
 		m2 = re.search('(?:In) (?:What|Which)', self.question, re.IGNORECASE)
 		m3 = re.search('(?:Which)', self.question, re.IGNORECASE)
 		m4 = re.search('(?:How did)', self.question, re.IGNORECASE)
-		if m is not None or m2 is not None or m3 is not None or m4 is not None and self.question_type == QuestionType.BASE:
-			self.question_type = QuestionType.LIST		
-
+		if self.question_type == QuestionType.BASE:
+			if m is not None or m2 is not None or m3 is not None or m4 is not None:
+				self.question_type = QuestionType.LIST		
 
 		if self.question_type == QuestionType.BASE:
-			print(self.question.strip(), self.question_type)
 			return False
 		else:
-			#print(self.question.strip(), self.question_type)
 			return True
 
-		
+	def get_question_type(self):
+		return self.question_type
+
+	def get_question(self):
+		return self.question
 		
 if __name__ == '__main__':
 	all_questions = []
 	nlp = spacy.load('en')
 	total_questions = 0
 	matches = 0
-	for line in open("test_questions.txt"):
+	for line in open("all_questions.txt"):
 		total_questions += 1
 		splitted = line.split("\t")
 		question = Question(splitted[-1], nlp)
@@ -72,15 +74,14 @@ if __name__ == '__main__':
 			matches += 1
 		all_questions.append(question)
 
-	questions_dictionary = {}
+	file_name = 'output.txt'
+	file = open(file_name, 'w')
 
 	for question in all_questions:
-		if question.question_type in questions_dictionary:
-			questions_dictionary[question.question_type] += 1
-		else:
-			questions_dictionary[question.question_type] = 1
+		file.write("{0:30} ".format(question.question_type) + question.question)
+
+	file.close()
+
 
 	print(str(matches) + "/" + str(total_questions))
-	print(questions_dictionary)
-
-
+	
