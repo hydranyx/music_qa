@@ -1,5 +1,6 @@
 from classifier import Question, QuestionType
 from extract import extract_features
+from get_wikidata import get_wikidata
 import spacy
 
 def main():
@@ -13,8 +14,8 @@ def main():
 		question = Question(splitted[-1], nlp)
 		question.determine_type()
 		question_type = question.get_question_type()
-		prop = extract_features(question, question_type)
-		#prop_num, entity_num = extract_features_wikidata(question_type)
+		prop_value = get_wikidata(question, 'property')
+		ent_value = get_wikidata(question, 'entity')
 		
 		#answer = fire_query(prop, entity, question_type)
 
