@@ -4,7 +4,7 @@ import spacy
 nlp_spacy = spacy.load('en')
 
 def extract_features(question, question_type, nlp):
-	nlp = nlp
+	nlp_spacy = nlp
 
 	if question_type is QuestionType.BASE:
 		base_question(question)
