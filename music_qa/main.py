@@ -1,6 +1,7 @@
 from classifier import Question, QuestionType
 from extract import extract_features
 from get_wikidata import get_wikidata
+from fire_query import fire_query
 import spacy
 
 def main():
@@ -14,12 +15,15 @@ def main():
 		question = Question(splitted[-1], nlp)
 		question.determine_type()
 		question_type = question.get_question_type()
-		features = extract_features(question, question_type, nlp)
+		features = extract_features(question, question_type, nlp) # Return List with Entities and Properties
 		
-		#prop_value = get_wikidata(question, 'property')
-		#ent_value = get_wikidata(question, 'entity')
+		#features[0] is Entity, features[1] is property"
+		ent_value = get_wikidata(features[0], 'entity')
+		prop_value = get_wikidata(features[1], 'property')
+
+		answer = fire_query(features[0], features[1], question_type)
 		
-		#answer = fire_query(prop, entity, question_type)
+		print(answer)
 
 if __name__ == '__main__':
 	main()
