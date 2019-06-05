@@ -1,7 +1,7 @@
 from classifier import Question, QuestionType
 import spacy
 
-nlp_spacy = spacy.load('en')
+nlp_spacy = spacy.load('en_core_web_sm')
 
 def extract_features(question, question_type, nlp):
 	nlp_spacy = nlp
@@ -46,10 +46,24 @@ def qualified_question(question):
 	return ['prop', 'entity']
 
 def description_question(question):
-	print(question)
+	
+	parse = nlp(question.question)
+
+	prop = ''
+	entity = ''
+
+	for w in parse:
+		if w.tag_ in ['NN','NNS','NNP','NNPS']:
+			entity = entity + w.text + ' '
+
+	entity = entity.rstrip()
+
+	print('entity: ' + entity + ' property: ' + prop)
+
 	return ['prop', 'entity']
 
 if __name__ == "__main__":
-	nlp = spacy.load('en')
-	question = Question('Who is the father of Miley Cyrus?', nlp)
-	extract_feautures(question, question.get_question_type())
+	nlp = spacy.load('en_core_web_sm')
+	question = Question('Who is Eminem?', nlp)
+	question.question_type = QuestionType.DESCRIPTION
+	extract_features(question, question.get_question_type(), nlp)
