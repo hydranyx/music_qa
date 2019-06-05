@@ -14,8 +14,10 @@ def main():
 		question = Question(splitted[-1], nlp)
 		question.determine_type()
 		question_type = question.get_question_type()
-		prop_value = get_wikidata(question, 'property')
-		ent_value = get_wikidata(question, 'entity')
+		features = extract_features(question, question_type, nlp)
+		
+		#prop_value = get_wikidata(question, 'property')
+		#ent_value = get_wikidata(question, 'entity')
 		
 		#answer = fire_query(prop, entity, question_type)
 

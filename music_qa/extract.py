@@ -1,7 +1,7 @@
 from classifier import Question, QuestionType
 import spacy
 
-def extract_features(question, question_type):
+def extract_features(question, question_type, nlp):
 	if question_type is QuestionType.BASE:
 		base_question(question)
 	elif question_type is QuestionType.LIST:
@@ -17,31 +17,31 @@ def extract_features(question, question_type):
 	elif question_type is QuestionType.DESCRIPTION:
 		description_question(question)
 
-def base_question(question):
+def base_question(question, nlp):
 	print(question)
 	return ['prop', 'entity']
 
-def list_question(question):
+def list_question(question, nlp):
 	print(question)
 	return ['prop', 'entity']
 
-def boolean_question(question):
+def boolean_question(question, nlp):
 	print(question)
 	return ['prop', 'entity']
 
-def count_question(question):
+def count_question(question, nlp):
 	print(question)
 	return ['prop', 'entity']
 
-def highest_question(question):
+def highest_question(question, nlp):
 	print(question)
 	return ['prop', 'entity']
 
-def qualified_question(question):
+def qualified_question(question, nlp):
 	print(question)
 	return ['prop', 'entity']
 
-def description_question(question):
+def description_question(question, nlp):
 	print(question)
 	return ['prop', 'entity']
 
