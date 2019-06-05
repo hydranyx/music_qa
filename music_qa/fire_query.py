@@ -1,5 +1,7 @@
 def fire_query(entity, prop, question_type):
 	"""Send a request to the wikidata API and returns the results. """
+	url = 'https://query.wikidata.org/sparql'
+	
 	if question_type is QuestionType.BASE:
 		query = 'SELECT ?xLabel WHERE {{  wd:{} wdt:{} ?x . SERVICE wikibase:label {{    bd:serviceParam wikibase:language "en" .  }}}}'.format(entity, prop)
 	elif question_type is QuestionType.LIST:

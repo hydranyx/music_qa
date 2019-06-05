@@ -5,7 +5,6 @@ from fire_query import fire_query
 import spacy
 
 def main():
-	#Import Spacy
 	nlp = spacy.load('en')
 
 	for line in open("all_questions.txt"):
@@ -18,10 +17,11 @@ def main():
 		features = extract_features(question, question_type, nlp) # Return List with Entities and Properties
 		
 		#features[0] is Entity, features[1] is property"
+		#TODO: Add function to check dictionary here. 
 		ent_value = get_wikidata(features[0], 'entity')
 		prop_value = get_wikidata(features[1], 'property')
 
-		answer = fire_query(features[0], features[1], question_type)
+		answer = fire_query(ent_value, prop_value, question_type)
 		
 		print(answer)
 
