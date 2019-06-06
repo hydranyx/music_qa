@@ -18,6 +18,7 @@ def main():
 		
 		#features[0] is Entity, features[1] is property"
 		#TODO: Add function to check dictionary here. 
+
 		ent_value = get_wikidata(features[0], 'entity')
 		prop_value = get_wikidata(features[1], 'property')
 

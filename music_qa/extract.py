@@ -62,6 +62,17 @@ def description_question(question):
 
 	return ['prop', 'entity']
 
+def get_word_by_dep(words, dep_list, dep):
+    result = None
+    for idx in range(len(dep_list)):
+        if dep_list[idx] == dep:
+            result = words[idx]
+    if result:        
+        print(dep, " = ", result)
+    else:
+        print('Failed to retreive a ', dep)
+    return result
+
 if __name__ == "__main__":
 	nlp = spacy.load('en_core_web_sm')
 	question = Question('Who is Eminem?', nlp)
