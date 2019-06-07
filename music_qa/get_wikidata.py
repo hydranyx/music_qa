@@ -11,6 +11,7 @@ def get_wikidata(text, use):
     info = []
 
     if use == 'entity':
+        params['type'] = 'entity'
         pass
     elif use == 'property':
         params['type'] = 'property'

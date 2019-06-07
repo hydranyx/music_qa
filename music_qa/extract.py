@@ -21,7 +21,7 @@ def extract_features(question, question_type, nlp):
 	elif question_type is QuestionType.DESCRIPTION:
 		result = description_question(question)
 	return result
-	
+
 def base_question(question):
 	print(question)
 	return ['prop', 'entity']
@@ -90,16 +90,24 @@ def description_question(question):
 
 	return ['prop', 'entity']
 
+#Getting the words of a specific dependancy (incl. all the compounds in front of it)
 def get_word_by_dep(words, dep_list, dep):
-    result = None
-    for idx in range(len(dep_list)):
-        if dep_list[idx] == dep:
-            result = words[idx]
-    if result:        
-        print(dep, " = ", result)
-    else:
-        print('Failed to retreive a ', dep)
-    return result
+	result = None
+	for idx in range(len(dep_list)):
+		if dep_list[idx] == dep:
+			result = words[idx]
+		if result:        
+			break
+	if not result:
+		print('Failed to retreive a ', dep)
+	else:
+		for x in range(idx):
+			if dep_list[idx-(x+1)] == 'compound':
+				result = words[idx-(x+1)] + ' ' + result
+			else:
+				break
+		print(dep, " = ", result)
+	return result
 
 def get_words_and_dep(question):
     nlp = spacy.load("en_core_web_sm")
@@ -108,7 +116,7 @@ def get_words_and_dep(question):
     types = []
     parse = nlp(question.strip())
     for q in parse:
-        tokens.append(q)
+        tokens.append(q.text)
         types.append(q.dep_)
     return tokens, types
 pass
