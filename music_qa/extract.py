@@ -39,25 +39,25 @@ def boolean_question(question):
     #Try to get an entity 
 	ent = get_word_by_dep(words, dep_list, 'nsubj')
 
-    #If there is an entity, try to get an attribute
+    ##If there is an entity, try to get a attribute
 	if ent:
 		attr = get_word_by_dep(words, dep_list, 'attr')
-		#If there is no attr, often the dobj is the attribute (TODO with compound?)
+
+		#If there is no attr, often the dobj is the attribute
 		if not attr:
 			attr = get_word_by_dep(words, dep_list, 'dobj')
-			if attr:
-				pass
+		
+		if not attr:
+			attr = get_word_by_dep(words, dep_list, 'pobj')
 
-        #If this is also not the case, often the verb/root is the attribute
+		#If this is also not the case, often the verb/root is the attribute
 		if not attr:
 			attr = get_word_by_dep(words, dep_list, 'ROOT')
-
 
 	#If there is no entity, often the ROOT is the entity and dobj the attribute (e.g. Is rapping a music style?)
 	else:
 		ent = get_word_by_dep(words, dep_list, 'ROOT')
 		attr = get_word_by_dep(words, dep_list, 'dobj')
-	
 	#TODO a boolean question has another pair of words (not a prop, but a attr)
 	return [attr, ent]
 
