@@ -76,7 +76,7 @@ def highest_question(question):
 	ent.strip()
 	prop.strip()
 
-	return ['prop', 'entity']
+	return [prop, ent]
 
 def qualified_question(question):
 	print(question)
