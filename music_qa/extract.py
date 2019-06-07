@@ -67,7 +67,7 @@ def count_question(question):
 
 def highest_question(question):
 
-	words, dep_list = get_words_and_dep(line)
+	words, dep_list = get_words_and_dep(question.question)
 
 	prop = get_word_by_dep(words, dep_list, 'amod') + ' ' + get_word_by_dep(words, dep_list, 'nsubj')
 
