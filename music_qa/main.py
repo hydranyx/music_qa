@@ -7,7 +7,7 @@ import spacy
 def main():
 	nlp = spacy.load('en')
 
-	for line in open("test_boolean_questions.txt"):
+	for line in open("all_questions.txt"):
 		splitted = line.split("\t")
 		
 		# Get Question and type
@@ -18,8 +18,7 @@ def main():
 		
 		#features[0] is Entity, features[1] is property"
 		#TODO: Add function to check dictionary here. 
-		print('type 1: ', features)
-		print('type 2: ', features[0])
+
 		ent_value = get_wikidata(features[0], 'entity')
 		prop_value = get_wikidata(features[1], 'property')
 
