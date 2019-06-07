@@ -7,20 +7,21 @@ def extract_features(question, question_type, nlp):
 	nlp_spacy = nlp
 
 	if question_type is QuestionType.BASE:
-		base_question(question)
+		result = base_question(question)
 	elif question_type is QuestionType.LIST:
-		list_question(question)
+		result = list_question(question)
 	elif question_type is QuestionType.BOOLEAN:
-		boolean_question(question)
+		result = boolean_question(question)
 	elif question_type is QuestionType.COUNT:
-		count_question(question)
+		result = count_question(question)
 	elif question_type is QuestionType.HIGHEST:
-		highest_question(question)
+		result = highest_question(question)
 	elif question_type is QuestionType.QUALIFIED:
-		qualified_question(question)
+		result = qualified_question(question)
 	elif question_type is QuestionType.DESCRIPTION:
-		description_question(question)
-
+		result = description_question(question)
+	return result
+	
 def base_question(question):
 	print(question)
 	return ['prop', 'entity']
@@ -33,7 +34,7 @@ def boolean_question(question):
 	print(question)
 
 	#Getting the individual words, and the dependencies
-	words, dep_list = get_words_and_dep(question)
+	words, dep_list = get_words_and_dep(question.question)
 
     #Try to get an entity 
 	ent = get_word_by_dep(words, dep_list, 'nsubj')
@@ -41,9 +42,16 @@ def boolean_question(question):
     #If there is an entity, try to get an attribute
 	if ent:
 		attr = get_word_by_dep(words, dep_list, 'attr')
-		#If there is no attr, often the verb/root is the attribute
+		#If there is no attr, often the dobj is the attribute (TODO with compound?)
+		if not attr:
+			attr = get_word_by_dep(words, dep_list, 'dobj')
+			if attr:
+				pass
+
+        #If this is also not the case, often the verb/root is the attribute
 		if not attr:
 			attr = get_word_by_dep(words, dep_list, 'ROOT')
+
 
 	#If there is no entity, often the ROOT is the entity and dobj the attribute (e.g. Is rapping a music style?)
 	else:
