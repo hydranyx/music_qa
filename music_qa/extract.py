@@ -119,7 +119,6 @@ def get_words_and_dep(question):
         tokens.append(q.text)
         types.append(q.dep_)
     return tokens, types
-pass
 
 if __name__ == "__main__":
 	nlp = spacy.load('en_core_web_sm')
