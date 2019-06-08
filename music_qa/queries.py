@@ -151,7 +151,7 @@ def know_associates(word):
 
 def list_type1(property, item):
     query = """
-    SELECT DISTINCT ?p ?itemLabel WHERE {{
+    SELECT DISTINCT ?itemLabel WHERE {{
     {} ?p ?item.
     ?item rdfs:label ?itemLabel
     
