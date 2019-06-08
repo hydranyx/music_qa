@@ -6,12 +6,22 @@ import logging
 import random
 import spacy
 import itertools
+from enum import Enum
 from music_qa.wikidata_mapper import WikidataMapper, QueryType
 from abc import ABC, abstractmethod
 
 
 # TODO don't reload the spacy model
 NLP = spacy.load("en_core_web_sm")
+
+
+class QuestionType(Enum):
+    BOOLEAN = 1
+    COUNT = 2
+    DESCRIPTION = 3
+    HIGHEST = 4
+    LIST = 5
+    QUALIFIED = 6
 
 
 class Question(ABC):
