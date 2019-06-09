@@ -9,10 +9,11 @@ import itertools
 from enum import Enum
 from music_qa.wikidata_mapper import WikidataMapper, QueryType
 from abc import ABC, abstractmethod
+import requests
 
 
 # TODO don't reload the spacy model
-NLP = spacy.load("en_core_web_sm")
+NLP = spacy.load("en")
 
 
 class QuestionType(Enum):
@@ -42,12 +43,49 @@ class Question(ABC):
     def fallback_strategy(self):
         return None
 
+    def add_features(self, features):
+        self.features = features
+
+    def get_wikidata(self, text, use):
+        url = 'https://www.wikidata.org/w/api.php'
+        params = {'action':'wbsearchentities', 'language':'en', 'format':'json'}
+        info = []
+
+        if use == 'entity':
+            params['type'] = 'item'
+            pass
+        elif use == 'property':
+            params['type'] = 'property'
+        else:
+            print('uncorrect call, specify type of info(entity/property) as second argument')
+            return info
+        
+        words = []
+        words.append(text)
+        synonyms = []
+
+        for word in words:
+            params['search'] = word
+            json = requests.get(url, params).json()
+            for result in json['search']:
+                info.append(result['id'])
+            if info:
+                break
+            if not synonyms:    
+                synonyms = wordnet.synsets(text)    
+                for synonym in synonyms:
+                    a = synonym.lemmas()[0].name()
+                    b = a.replace("_"," ")
+                    words.append(b)
+        return info
+
     def execute(self):
+        prop = self.get_wikidata(self.features['property'], 'property')
+        entity = self.get_wikidata(self.features['entity'], 'entity')
         result = self.primary_strategy()
         if result is None:
             result = self.fallback_strategy()
         return result
-
 
 class BooleanQuestion(Question):
     def __init__(self, question):
@@ -93,26 +131,28 @@ class QualifiedQuestion(Question):
 
 
 class DescriptiveQuestion(Question):
-    def __init__(self, question, descriptive_type):
+    def __init__(self, question):
         super(DescriptiveQuestion, self).__init__(question)
-        self.descriptive_type = descriptive_type
         self.mapper = WikidataMapper()
 
     def primary_strategy(self):
-        if self.descriptive_type == QueryType.ENTITY:
-            item = extract_entity(self.question)
-        elif self.descriptive_type == QueryType.PROPERTY:
-            item = extract_property(self.question)
-            pass
+        return None
 
-        mapping = self.mapper.get_closest_map(item, self.descriptive_type)
+    # def primary_strategy(self):
+    #     if self.descriptive_type == QueryType.ENTITY:
+    #         item = extract_entity(self.question)
+    #     elif self.descriptive_type == QueryType.PROPERTY:
+    #         item = extract_property(self.question)
+    #         pass
 
-        if mapping is None:
-            return None
+    #     mapping = self.mapper.get_closest_map(item, self.descriptive_type)
 
-        label = mapping["label"]
-        description = mapping["description"]
-        return "{}: {}".format(label, description)
+    #     if mapping is None:
+    #         return None
+
+    #     label = mapping["label"]
+    #     description = mapping["description"]
+    #     return "{}: {}".format(label, description)
 
     # def fallback_strategy(self):
     #     # Call thesaurus on the entity/ property and then rerun the same logic
@@ -120,117 +160,117 @@ class DescriptiveQuestion(Question):
     #     pass
 
 
-def extract_entity(question):
-    """ Extracts the entity from a question. """
+# def extract_entity(question):
+#     """ Extracts the entity from a question. """
 
-    # Prepare the document
-    doc = NLP(question)
-    # Extract index of the POS tag
-    index = None
-    ents = None
-    for token in doc:
-        if token.tag_ == "POS":
-            index = token.i
-            break
-    if index:
-        # make a sub string and extract its entity
-        sub_doc = NLP(str(doc[:index]))
-        ents = sub_doc.ents
+#     # Prepare the document
+#     doc = NLP(question)
+#     # Extract index of the POS tag
+#     index = None
+#     ents = None
+#     for token in doc:
+#         if token.tag_ == "POS":
+#             index = token.i
+#             break
+#     if index:
+#         # make a sub string and extract its entity
+#         sub_doc = NLP(str(doc[:index]))
+#         ents = sub_doc.ents
 
-    # If there are no entities
-    if not ents:
-        # Extract entities using Spacy
-        ents = doc.ents
+#     # If there are no entities
+#     if not ents:
+#         # Extract entities using Spacy
+#         ents = doc.ents
 
-    # if there are still no entities
-    if not ents:
-        # consider object nouns
-        ents = [chunk for chunk in doc.noun_chunks if chunk.root.dep_ == "pobj"]
+#     # if there are still no entities
+#     if not ents:
+#         # consider object nouns
+#         ents = [chunk for chunk in doc.noun_chunks if chunk.root.dep_ == "pobj"]
 
-    # if there are still no entities
-    if not ents:
-        # consider object nouns
-        ents = [chunk for chunk in doc.noun_chunks if chunk.root.dep_ == "nsubj"]
+#     # if there are still no entities
+#     if not ents:
+#         # consider object nouns
+#         ents = [chunk for chunk in doc.noun_chunks if chunk.root.dep_ == "nsubj"]
 
-    if not ents:
-        ents = [
-            NLP(token.text)[:]
-            for token in doc
-            if token.tag_ in ["NN", "NNS", "NNP", "NNPS"]
-        ]
+#     if not ents:
+#         ents = [
+#             NLP(token.text)[:]
+#             for token in doc
+#             if token.tag_ in ["NN", "NNS", "NNP", "NNPS"]
+#         ]
 
-    # Extract the last entity
-    entity = ents[-1]
+#     # Extract the last entity
+#     entity = ents[-1]
 
-    # If the entity is a compound
-    # TODO this should be generalized
-    if entity.root.dep_ == "conj":
-        # Combine text
-        entity = ents[-2].text + " and " + ents[-1].text
-    else:
-        subdoc = NLP(entity.text)
-        # Recombine the words
-        entity = " ".join(
-            list(
-                map(
-                    # Convert to text
-                    lambda token: token.lemma_,
-                    # Remove leading stop words
-                    itertools.dropwhile(
-                        lambda token: token.text in ["a", "an"], subdoc
-                    ),
-                )
-            )
-        )
+#     # If the entity is a compound
+#     # TODO this should be generalized
+#     if entity.root.dep_ == "conj":
+#         # Combine text
+#         entity = ents[-2].text + " and " + ents[-1].text
+#     else:
+#         subdoc = NLP(entity.text)
+#         # Recombine the words
+#         entity = " ".join(
+#             list(
+#                 map(
+#                     # Convert to text
+#                     lambda token: token.lemma_,
+#                     # Remove leading stop words
+#                     itertools.dropwhile(
+#                         lambda token: token.text in ["a", "an"], subdoc
+#                     ),
+#                 )
+#             )
+#         )
 
-    return entity
+#     return entity
 
 
-def extract_property(question):
-    """ Extracts the property from a question. """
+# def extract_property(question):
+#     """ Extracts the property from a question. """
 
-    # Extract the entity to simply property extraction
-    entity = extract_entity(question)
-    # Remove the entity from the question
-    idx = question.rfind(entity)
-    question = question[:idx] + question[idx + len(entity) :]
+#     # Extract the entity to simply property extraction
+#     entity = extract_entity(question)
+#     # Remove the entity from the question
+#     idx = question.rfind(entity)
+#     question = question[:idx] + question[idx + len(entity) :]
 
-    # Prepare the document
-    doc = NLP(question)
+#     # Prepare the document
+#     doc = NLP(question)
 
-    # Extract the possible properties
-    property_span = [
-        chunk for chunk in doc.noun_chunks if chunk.root.tag_ in ["NN", "NNS"]
-    ]
+#     # Extract the possible properties
+#     property_span = [
+#         chunk for chunk in doc.noun_chunks if chunk.root.tag_ in ["NN", "NNS"]
+#     ]
 
-    if not property_span:
-        doc = NLP(question[idx:].strip())
-        property_span = [token for token in doc]
-        if property_span:
-            return property_span[0].text
+#     if not property_span:
+#         doc = NLP(question[idx:].strip())
+#         property_span = [token for token in doc]
+#         if property_span:
+#             return property_span[0].text
 
-    # Assert that the question is not empty
-    # TODO consider error handling
-    assert question
+#     # Assert that the question is not empty
+#     # TODO consider error handling
+#     assert question
 
-    # If there is one property
-    if len(property_span) == 1:
-        # Set that property
-        property = property_span[0]
-    else:
-        # Combine the property span
-        property = doc[property_span[0].start : property_span[-1].end]
+#     # If there is one property
+#     if len(property_span) == 1:
+#         # Set that property
+#         property = property_span[0]
+#     else:
+#         # Combine the property span
+#         property = doc[property_span[0].start : property_span[-1].end]
 
-    # Recombine the words
-    property = " ".join(
-        list(
-            map(
-                # Convert to text
-                lambda token: token.lemma_,
-                # Remove leading stop words
-                itertools.dropwhile(lambda token: token.is_stop, property),
-            )
-        )
-    )
+#     # Recombine the words
+#     property = " ".join(
+#         list(
+#             map(
+#                 # Convert to text
+#                 lambda token: token.lemma_,
+#                 # Remove leading stop words
+#                 itertools.dropwhile(lambda token: token.is_stop, property),
+#             )
+#         )
+#     )
 
-    return property
+#     return property

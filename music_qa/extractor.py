@@ -17,7 +17,7 @@ from .question import QuestionType
 
 class Extractor:
     def __init__(self):
-        self.nlp = spacy.load("en_core_web_sm")
+        self.nlp = spacy.load("en")
         self.classifier = Classifier()
         self.question_switch = {
             QuestionType.BOOLEAN: BooleanQuestion,
@@ -34,10 +34,17 @@ class Extractor:
         logging.debug("Question: %s determined to be %s", question, question_type)
         features = self.extract_features(question, question_type)
         logging.debug("Question: %s has features %s", question, features)
-        question = self.question_switch[question_type](question, *features)
+        question = self.question_switch[question_type](question)
+        question.add_features(features)
         return question
 
     def extract_features(self, question, question_type):
         if question_type == QuestionType.DESCRIPTION:
-            return [QueryType.ENTITY]
-        return ("property", "entity")
+            #return [QueryType.ENTITY]
+            return {'property': 'date of birth', "entity": 'Michael Jackson'}
+        return {'property': 'date of birth', "entity": 'Michael Jackson'}
+
+
+        # TODO 
+        # Create functions for extracting features. 
+        # 
