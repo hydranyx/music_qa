@@ -8,7 +8,7 @@ import sys
 from music_qa import MusicQa
 
 # Un-comment to see debug logging
-# logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
 
 
 def main():
