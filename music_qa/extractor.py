@@ -50,7 +50,7 @@ class Extractor:
 		elif question_type is QuestionType.HIGHEST:
 			result = highest_question(question, self.nlp)
 		elif question_type is QuestionType.QUALIFIED:
-			result = qualified_question(questionm, self.nlp)
+			result = qualified_question(question, self.nlp)
 		elif question_type is QuestionType.DESCRIPTION:
 			result = description_question(question, self.nlp)
 		return result
@@ -87,7 +87,7 @@ def boolean_question(question, nlp):
 		attr = get_word_by_dep(words, dep_list, 'dobj')
 		if not attr:
 			attr = get_word_by_dep(words, dep_list, 'pobj')
-			
+
 	#TODO a boolean question has another pair of words (not a prop, but a attr)
 	return {'attribute': attr, "entity": ent}
 

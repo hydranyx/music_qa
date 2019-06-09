@@ -8,6 +8,7 @@ import spacy
 import itertools
 from enum import Enum
 from music_qa.wikidata_mapper import WikidataMapper, QueryType
+from music_qa.wikidata_query import WikidataQuery
 from abc import ABC, abstractmethod
 import requests
 from nltk.corpus import wordnet
@@ -32,6 +33,7 @@ class Question(ABC):
     """
 
     def __init__(self, question):
+        self.wikidata_query = WikidataQuery()
         self.question = question
 
     def __str__(self):
@@ -94,7 +96,7 @@ class BooleanQuestion(Question):
 
     def primary_strategy(self):
         #TODO fire specific query with entity and attribute
-        
+        self.wikidata_query.list_type1_q(self.features['entity'], self.features['attribute'])
         print('BooleanQuestion: Primary strategy not implemented yet ')
         return None
 
