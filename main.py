@@ -24,7 +24,7 @@ def main():
         # Answer the question
         answer = qa_system.answer(question)
         # Print the answer
-        print(str(answer))
+        print(answer)
 
 
 if __name__ == "__main__":
