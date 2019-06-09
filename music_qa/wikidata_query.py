@@ -52,7 +52,7 @@ class WikidataQuery:
 	        word
 	    )
 	    # returns an 'Also known as' words list
-	    return run_query(query)
+	    return self.run_query(query)
 
 
 	def x_of_y_q(self, entity, property):
@@ -66,7 +66,7 @@ class WikidataQuery:
 	        entity, property
 	    )
 	    # returns a list containing 0 or more phrases.
-	    return run_query(query)
+	    return self.run_query(query)
 
 
 	def list_only_q(self, property, item):
@@ -86,7 +86,7 @@ class WikidataQuery:
 	        property, property, item
 	    )
 	    # returns a number
-	    return run_query(query)
+	    return self.run_query(query)
 
 
 	def list_type1_q(self, entity, item):
@@ -103,7 +103,7 @@ class WikidataQuery:
 	        entity, item
 	    )
 	    # returns the words or word-parts that it found as a match with the phrase item
-	    return run_query(query)
+	    return self.run_query(query)
 
 
 	def list_type2_q(self, sub_entity, sub_property, main_property):
@@ -119,7 +119,7 @@ class WikidataQuery:
 	        sub_entity, sub_property, main_property
 	    )
 	    # returns a list of entities
-	    return run_query(query)
+	    return self.run_query(query)
 
 
 	def qualified_statement_for_time_q(self, entity, property, qualifier):
@@ -140,7 +140,7 @@ class WikidataQuery:
 	    """.format(
 	        qualifier, entity, property, property
 	    )
-	    return run_query(query)
+	    return self.run_query(query)
 
 
 	def qualified_statement_for_qualifier(self, qualifier, quality, entity, property):
@@ -163,4 +163,4 @@ class WikidataQuery:
 	        qualifier, quality, entity, property, property
 	    )
 	    # return a list of items
-	    return run_query(query)
+	    return self.run_query(query)

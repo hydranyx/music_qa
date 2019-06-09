@@ -62,7 +62,6 @@ def list_question(question, nlp):
 
 
 def boolean_question(question, nlp):
-
     # Getting the individual words, and the dependencies
     words, dep_list = get_words_and_dep(question, nlp)
 
