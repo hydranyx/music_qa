@@ -56,58 +56,7 @@ class Extractor:
         return result
 
 def list_question(question, nlp):
-    result = nlp(question)
-        
-    entities = []
-    properties = []
-
-    # Search for entities
-    for ent in result.ents:
-        entities.append(ent.text)
-
-    # Search for properties
-    for sent in result.sents:
-        for token in sent:
-            if token.dep_ == 'nsubj' and token.ent_type_ is '':
-                for x in token.subtree:
-                    if x.pos_ == 'NOUN' or x.pos_ == 'ADJ' and x.ent_type_ is '':
-                        properties.append(x.text)
-                properties.append(token.text)
-            elif token.dep_ == 'attr' and token.ent_type_ is '':
-                for x in token.subtree:
-                    if x.pos_ == 'NOUN' or x.pos_ == 'ADJ' and x.ent_type_ is '':
-                        properties.append(x.text)
-                properties.append(token.text)
-            elif token.dep_ == 'nsubjpass' and token.ent_type_ is '':
-                for x in token.subtree:
-                    if x.pos_ == 'NOUN' or x.pos_ == 'ADJ' and x.ent_type_ is '':
-                        properties.append(x.text)
-                properties.append(token.text)
-            if token.dep_ == 'advmod' and token.ent_type_ is '':
-                for x in token.subtree:
-                    if x.pos_ == 'NOUN' or x.pos_ == 'ADJ' and x.ent_type_ is '':
-                        properties.append(x.text)
-                properties.append(token.text)
-            if token.dep_ == 'dobj' and token.ent_type_ is '':
-                for x in token.subtree:
-                    if x.pos_ == 'NOUN' or x.pos_ == 'ADJ' and x.ent_type_ is '':
-                        properties.append(x.text)
-                properties.append(token.text)
-
-    # Remove entities from the properties
-    used = set(entities)
-    properties = [x for x in properties if x not in used and (used.add(x) or True)]
-    for item in ['What', 'When', 'Who']:
-        if item in properties:
-            properties.remove(item)
-    
-    prop = " ".join(properties)
-
-    if prop == '' or len(entities) == 0:
-
-        description_question(question)
-
-    return {'property': prop, "entity": entities}
+    return {'property': 'property', "entity": 'entity'}
 
 def boolean_question(question, nlp):
     #print(question)

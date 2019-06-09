@@ -20,6 +20,7 @@ class Qa:
         logging.debug("Answering: %s", question)
         logging.debug("Preparing: %s", question)
         question = self.extractor.prepare_question(question)
+        print(question.features)
         logging.debug("Executing query for question: %s", question)
         answer = question.execute()
         return Answer(answer)
