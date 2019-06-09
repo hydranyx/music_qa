@@ -99,7 +99,6 @@ class BooleanQuestion(Question):
         # self.parameter_name = whatever argument
 
     def primary_strategy(self):
-<<<<<<< HEAD
         #TODO fire specific query with entity and attribute
         q_number = self.get_wikidata(self.features['entity'], 'entity')
         print('BooleanQuestion: Primary strategy not correctly implemented yet ')
@@ -113,18 +112,6 @@ class BooleanQuestion(Question):
             except:
                 answer = 'False'
         return answer
-=======
-        # TODO fire specific query with entity and attribute
-        q_number = self.get_wikidata(self.features["entity"], "entity")
-        print("BooleanQuestion: Primary strategy not correctly implemented yet ")
-        answer = self.wikidata_query.list_type1_q(
-            q_number[0], self.features["attribute"]
-        )
-        return (
-            answer["results"]["bindings"][0]["itemLabel"]["value"]
-            == self.features["attribute"]
-        )
->>>>>>> 2a8b5183a43391b42a2809388deaf67ca839aa00
 
     def fallback_strategy(self):
         return random.choice([True, False])
