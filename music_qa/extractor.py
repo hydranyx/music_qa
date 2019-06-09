@@ -36,7 +36,7 @@ class Extractor:
         logging.debug("Question: %s determined to be %s", question, question_type)
         features = self.extract_features(question, question_type)
         logging.debug("Question: %s has features %s", question, features)
-        question = self.question_switch[question_type](question, *features)
+        question = self.question_switch[question_type](question)
         print(question_type)
         question.add_features(features)
         return question

@@ -102,7 +102,6 @@ class BooleanQuestion(Question):
         q_number = self.get_wikidata(self.features['entity'], 'entity')
         print('BooleanQuestion: Primary strategy not correctly implemented yet ')
         answer = self.wikidata_query.list_type1_q(q_number[0], self.features['attribute'])
-        print(answer)
         return (answer['results']['bindings'][0]['itemLabel']['value'] == self.features['attribute'])
 
     def fallback_strategy(self):
