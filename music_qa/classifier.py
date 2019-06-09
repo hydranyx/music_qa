@@ -13,7 +13,7 @@ class Classifier:
 
         # HIGHEST Question
         m = re.search(
-            "(?:highest|lowest|first|last|oldest|youngest|earliest|latest)",
+            "(?:highest|lowest|first|last|oldest|youngest|earliest|latest|smallest|biggest|greatest|newest)",
             question,
             re.IGNORECASE,
         )
