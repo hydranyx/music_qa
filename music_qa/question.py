@@ -9,10 +9,12 @@ import itertools
 from enum import Enum
 from music_qa.wikidata_mapper import WikidataMapper, QueryType
 from abc import ABC, abstractmethod
+import requests
+from nltk.corpus import wordnet
 
 
 # TODO don't reload the spacy model
-NLP = spacy.load("en_core_web_sm")
+NLP = spacy.load("en")
 
 
 class QuestionType(Enum):
@@ -42,6 +44,44 @@ class Question(ABC):
     def fallback_strategy(self):
         return None
 
+    def add_features(self, features):
+        self.features = features
+
+    def get_wikidata(self, text, use):
+        url = "https://www.wikidata.org/w/api.php"
+        params = {"action": "wbsearchentities", "language": "en", "format": "json"}
+        info = []
+
+        if use == "entity":
+            params["type"] = "item"
+            pass
+        elif use == "property":
+            params["type"] = "property"
+        else:
+            print(
+                "uncorrect call, specify type of info(entity/property) as second argument"
+            )
+            return info
+
+        words = []
+        words.append(text)
+        synonyms = []
+
+        for word in words:
+            params["search"] = word
+            json = requests.get(url, params).json()
+            for result in json["search"]:
+                info.append(result["id"])
+            if info:
+                break
+            if not synonyms:
+                synonyms = wordnet.synsets(text)
+                for synonym in synonyms:
+                    a = synonym.lemmas()[0].name()
+                    b = a.replace("_", " ")
+                    words.append(b)
+        return info
+
     def execute(self):
         result = self.primary_strategy()
         if result is None:
@@ -56,6 +96,9 @@ class BooleanQuestion(Question):
         # self.parameter_name = whatever argument
 
     def primary_strategy(self):
+        # TODO fire specific query with entity and attribute
+
+        print("BooleanQuestion: Primary strategy not implemented yet ")
         return None
 
     def fallback_strategy(self):
@@ -97,8 +140,11 @@ class QualifiedQuestion(Question):
 class DescriptiveQuestion(Question):
     def __init__(self, question, descriptive_type):
         super(DescriptiveQuestion, self).__init__(question)
-        self.descriptive_type = descriptive_type
         self.mapper = WikidataMapper()
+        self.descriptive_type = descriptive_type
+
+    def primary_strategy(self):
+        return None
 
     def primary_strategy(self):
         if self.descriptive_type == QueryType.ENTITY:
@@ -116,12 +162,14 @@ class DescriptiveQuestion(Question):
         description = mapping["description"]
         return "{}: {}".format(label, description)
 
-    # def fallback_strategy(self):
-    #     # Call thesaurus on the entity/ property and then rerun the same logic
-    #     # as primary again and again, until not None or no possibilities left.
-    #     pass
+    def fallback_strategy(self):
+        # Call thesaurus on the entity/ property and then rerun the same logic
+        # as primary again and again, until not None or no possibilities left.
+        pass
 
 
+## TODO move to different location.
+## DON'T TOUCH WHILE THE OTHER QUESTIONS ARE STILL BEING BUILT.
 def extract_entity(question):
     """ Extracts the entity from a question. """
 

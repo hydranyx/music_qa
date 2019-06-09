@@ -6,7 +6,7 @@ import spacy
 
 class Classifier:
     def __init__(self):
-        self.nlp = spacy.load("en_core_web_sm")
+        self.nlp = spacy.load("en")
 
     def classify(self, question):
         doc = self.nlp(question)
