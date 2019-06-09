@@ -98,22 +98,33 @@ class BooleanQuestion(Question):
         # self.parameter_name = whatever argument
 
     def primary_strategy(self):
-        #TODO fire specific query with entity and attribute
-        q_number = self.get_wikidata(self.features['entity'], 'entity')
-        print('BooleanQuestion: Primary strategy not correctly implemented yet ')
-        answer = self.wikidata_query.list_type1_q(q_number[0], self.features['attribute'])
-        print(answer)
-        return (answer['results']['bindings'][0]['itemLabel']['value'] == self.features['attribute'])
+        # TODO fire specific query with entity and attribute
+        q_number = self.get_wikidata(self.features["entity"], "entity")
+        print("BooleanQuestion: Primary strategy not correctly implemented yet ")
+        answer = self.wikidata_query.list_type1_q(
+            q_number[0], self.features["attribute"]
+        )
+        return (
+            answer["results"]["bindings"][0]["itemLabel"]["value"]
+            == self.features["attribute"]
+        )
 
     def fallback_strategy(self):
         return random.choice([True, False])
 
 
 class ListQuestion(Question):
-    def __init__(self, question):
+    def __init__(self, question, property, entity):
         super(ListQuestion, self).__init__(question)
+        self.mapper = WikidataMapper()
+        self.property = property
+        self.entity = entity
 
     def primary_strategy(self):
+        print(self.property, self.entity)
+        return None
+
+    def secundary_strategy(self):
         return None
 
 
