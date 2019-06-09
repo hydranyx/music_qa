@@ -59,7 +59,6 @@ def list_question(question, nlp):
     return {'property': 'property', "entity": 'entity'}
 
 def boolean_question(question, nlp):
-    #print(question)
 
     #Getting the individual words, and the dependencies
     words, dep_list = get_words_and_dep(question, nlp)
@@ -87,7 +86,7 @@ def boolean_question(question, nlp):
         ent = get_word_by_dep(words, dep_list, 'ROOT')
         attr = get_word_by_dep(words, dep_list, 'dobj')
     #TODO a boolean question has another pair of words (not a prop, but a attr)
-    return {'property': attr, "entity": ent}
+    return {'attribute': attr, "entity": ent}
 
 def count_question(question, nlp):
     #print(question)
