@@ -121,7 +121,7 @@ class ListQuestion(Question):
         self.entity = entity
 
     def primary_strategy(self):
-        print(self.property, self.entity)
+        logging.debug("Property: %s, Entity: %s", self.property, self.entity)
         return None
 
     def secundary_strategy(self):

@@ -58,7 +58,7 @@ class Extractor:
 
 
 def list_question(question, nlp):
-    return {"property": "property", "entity": "entity"}
+    return ("property example", "entity example")
 
 
 def boolean_question(question, nlp):
