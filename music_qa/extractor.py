@@ -36,7 +36,7 @@ class Extractor:
         logging.debug("Question: %s determined to be %s", question, question_type)
         features = self.extract_features(question, question_type)
         logging.debug("Question: %s has features %s", question, features)
-        question = self.question_switch[question_type](question)
+        question = self.question_switch[question_type](question, *features)
         print(question_type)
         question.add_features(features)
         return question
@@ -58,7 +58,7 @@ class Extractor:
 
 
 def list_question(question, nlp):
-    return {"property": "property", "entity": "entity"}
+    return ("property example", "entity example")
 
 
 def boolean_question(question, nlp):

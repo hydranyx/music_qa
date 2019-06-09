@@ -13,7 +13,7 @@ class Classifier:
 
         # HIGHEST Question
         m = re.search(
-            "(?:highest|lowest|first|last|oldest|youngest|earliest|latest)",
+            "(?:highest|lowest|first|last|oldest|youngest|earliest|latest|smallest|biggest|greatest|newest)",
             question,
             re.IGNORECASE,
         )
@@ -31,7 +31,13 @@ class Classifier:
 
         # DESCRIPTION Question
         # TODO IN LIST
-        m = re.search("(?:What|Who) (Is|Was)", question, re.IGNORECASE)
+        # TODO make sure that this is description only if either property or entity are present but not both.
+        m = re.fullmatch(
+            "(What|Who) (is|are|were|was) (the )?([^(\?|of)]*)( ?\?)?",
+            question,
+            re.IGNORECASE,
+        )
+        print(m)
         if m is not None:
             return QuestionType.DESCRIPTION
 
