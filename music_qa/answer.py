@@ -15,5 +15,5 @@ class Answer:
         if self.answer is None:
             str_ = "No answer found."
         else:
-            str_ = "Answer: " + self.answer
+            str_ = "Answer: " + str(self.answer)
         return str_

@@ -10,6 +10,7 @@ from enum import Enum
 from music_qa.wikidata_mapper import WikidataMapper, QueryType
 from abc import ABC, abstractmethod
 import requests
+from nltk.corpus import wordnet
 
 
 # TODO don't reload the spacy model
