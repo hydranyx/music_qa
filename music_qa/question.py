@@ -94,6 +94,7 @@ class BooleanQuestion(Question):
 
     def primary_strategy(self):
         #TODO fire specific query with entity and attribute
+        
         print('BooleanQuestion: Primary strategy not implemented yet ')
         return None
 
