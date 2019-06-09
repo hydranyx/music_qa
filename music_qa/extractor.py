@@ -150,7 +150,7 @@ def get_word_by_dep(words, dep_list, dep):
         # print('Failed to retreive a ', dep)
     else:
         for x in range(idx):
-            if dep_list[idx - (x + 1)] == "compound":
+            if dep_list[idx - (x + 1)] == "compound" or dep_list[idx - (x + 1 )] == "amod":
                 result = words[idx - (x + 1)] + " " + result
             else:
                 break

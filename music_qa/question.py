@@ -82,6 +82,7 @@ class Question(ABC):
                     a = synonym.lemmas()[0].name()
                     b = a.replace("_", " ")
                     words.append(b)
+        # print('INFO === ', info)
         return info
 
     def execute(self):
@@ -101,8 +102,16 @@ class BooleanQuestion(Question):
         #TODO fire specific query with entity and attribute
         q_number = self.get_wikidata(self.features['entity'], 'entity')
         print('BooleanQuestion: Primary strategy not correctly implemented yet ')
-        answer = self.wikidata_query.list_type1_q(q_number[0], self.features['attribute'])
-        return (answer['results']['bindings'][0]['itemLabel']['value'] == self.features['attribute'])
+        for q in range(len(q_number)):
+            try:
+                answer_json = self.wikidata_query.list_type1_q(q_number[q], self.features['attribute'])
+                answer = answer_json['results']['bindings'][0]['itemLabel']['value']
+                answer = (answer == self.features['attribute'])
+                if answer == True:
+                    return 'True'
+            except:
+                answer = 'False'
+        return answer
 
     def fallback_strategy(self):
         return random.choice([True, False])
