@@ -95,7 +95,7 @@ def count_question(question, nlp):
 
 def highest_question(question, nlp):
 
-    words, dep_list = get_words_and_dep(question)
+    words, dep_list = get_words_and_dep(question, nlp)
 
     prop = get_word_by_dep(words, dep_list, 'amod') + ' ' + get_word_by_dep(words, dep_list, 'nsubj')
 
