@@ -52,6 +52,8 @@ class Question(ABC):
 class BooleanQuestion(Question):
     def __init__(self, question):
         super(BooleanQuestion, self).__init__(question)
+        # NOTE to add parameters after constructing the super class: do.
+        # self.parameter_name = whatever argument
 
     def primary_strategy(self):
         return None

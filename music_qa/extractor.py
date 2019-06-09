@@ -2,6 +2,7 @@ import logging
 import re
 import spacy
 from .question import (
+    QuestionType,
     BooleanQuestion,
     CountQuestion,
     DescriptiveQuestion,
@@ -12,7 +13,6 @@ from .question import (
 
 from .wikidata_mapper import QueryType
 from .classifier import Classifier
-from .question import QuestionType
 
 
 class Extractor:
@@ -38,6 +38,18 @@ class Extractor:
         return question
 
     def extract_features(self, question, question_type):
+        """
+        A function to extract features needed for querying. The returned list
+        should be the same length as the number of arguments in the __init__ of
+        the question matching the question type (aside from the initial
+        question parameter).
+        """
         if question_type == QuestionType.DESCRIPTION:
+            # TODO determine which type of descriptive question.
+            # If entity only return QueryType.ENTITY
+            # If property only return QueryType.PROPERTY
             return [QueryType.ENTITY]
+        if question_type == QuestionType.LIST:
+            return [QueryType.PROPERTY, QueryType.ENTITY]
+        logging.debug("Extracting features for question type %s", question_type)
         return ("property", "entity")
