@@ -23,15 +23,66 @@ def extract_features(question, question_type, nlp):
 	return result
 
 def base_question(question):
-	print(question)
+	#print(question)
 	return ['prop', 'entity']
 
 def list_question(question):
-	print(question)
-	return ['prop', 'entity']
+	result = nlp_spacy(question.question)
+		
+	entities = []
+	properties = []
+
+	# Search for entities
+	for ent in result.ents:
+		entities.append(ent.text)
+
+	# Search for properties
+	for sent in result.sents:
+		for token in sent:
+			if token.dep_ == 'nsubj' and token.ent_type_ is '':
+				for x in token.subtree:
+					if x.pos_ == 'NOUN' or x.pos_ == 'ADJ' and x.ent_type_ is '':
+						properties.append(x.text)
+				properties.append(token.text)
+			elif token.dep_ == 'attr' and token.ent_type_ is '':
+				for x in token.subtree:
+					if x.pos_ == 'NOUN' or x.pos_ == 'ADJ' and x.ent_type_ is '':
+						properties.append(x.text)
+				properties.append(token.text)
+			elif token.dep_ == 'nsubjpass' and token.ent_type_ is '':
+				for x in token.subtree:
+					if x.pos_ == 'NOUN' or x.pos_ == 'ADJ' and x.ent_type_ is '':
+						properties.append(x.text)
+				properties.append(token.text)
+			if token.dep_ == 'advmod' and token.ent_type_ is '':
+				for x in token.subtree:
+					if x.pos_ == 'NOUN' or x.pos_ == 'ADJ' and x.ent_type_ is '':
+						properties.append(x.text)
+				properties.append(token.text)
+			if token.dep_ == 'dobj' and token.ent_type_ is '':
+				for x in token.subtree:
+					if x.pos_ == 'NOUN' or x.pos_ == 'ADJ' and x.ent_type_ is '':
+						properties.append(x.text)
+				properties.append(token.text)
+
+	# Remove entities from the properties
+	used = set(entities)
+	properties = [x for x in properties if x not in used and (used.add(x) or True)]
+	for item in ['What', 'When', 'Who']:
+		if item in properties:
+			properties.remove(item)
+	
+	prop = " ".join(properties)
+
+	if prop == '' or len(entities) == 0:
+
+		question.question_type = QuestionType.DESCRIPTION
+		description_question(question)
+
+	return [prop, entities]
 
 def boolean_question(question):
-	print(question)
+	#print(question)
 
 	#Getting the individual words, and the dependencies
 	words, dep_list = get_words_and_dep(question.question)
@@ -62,7 +113,7 @@ def boolean_question(question):
 	return [attr, ent]
 
 def count_question(question):
-	print(question)
+	#print(question)
 	return ['prop', 'entity']
 
 def highest_question(question):
@@ -84,7 +135,7 @@ def qualified_question(question):
 
 def description_question(question):
 	
-	parse = nlp(question.question)
+	parse = nlp_spacy(question.question)
 
 	prop = ''
 	ent = ''
@@ -95,7 +146,7 @@ def description_question(question):
 
 	ent = ent.strip()
 
-	return {'property': prop, 'entity': ent}
+	return {'property': prop, 'entity': [ent]}
 
 #Getting the words of a specific dependancy (incl. all the compounds in front of it)
 def get_word_by_dep(words, dep_list, dep):
@@ -106,22 +157,23 @@ def get_word_by_dep(words, dep_list, dep):
 		if result:        
 			break
 	if not result:
-		print('Failed to retreive a ', dep)
+		pass
+		#print('Failed to retreive a ', dep)
 	else:
 		for x in range(idx):
 			if dep_list[idx-(x+1)] == 'compound':
 				result = words[idx-(x+1)] + ' ' + result
 			else:
 				break
-		print(dep, " = ", result)
+		#print(dep, " = ", result)
 	return result
 
 def get_words_and_dep(question):
-    nlp = spacy.load("en_core_web_sm")
-    nlp.vocab["name"].is_stop = False
+    #nlp = spacy.load("en_core_web_sm")
+    nlp_spacy.vocab["name"].is_stop = False
     tokens = []
     types = []
-    parse = nlp(question.strip())
+    parse = nlp_spacy(question.strip())
     for q in parse:
         tokens.append(q.text)
         types.append(q.dep_)
@@ -129,6 +181,7 @@ def get_words_and_dep(question):
 
 if __name__ == "__main__":
 	nlp = spacy.load('en')
-	question = Question('Did Mozart Play on Violin?', nlp)
-	question.question_type = QuestionType.BOOLEAN
+
+	question = Question('What bands did Kurt Cobain play in?', nlp)
+	question.question_type = QuestionType.LIST
 	print(extract_features(question, question.get_question_type(), nlp))
