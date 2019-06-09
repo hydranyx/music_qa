@@ -93,10 +93,19 @@ class BooleanQuestion(Question):
         super(BooleanQuestion, self).__init__(question)
 
     def primary_strategy(self):
+        #TODO fire specific query with entity and attribute
+        print('BooleanQuestion: Primary strategy not implemented yet ')
         return None
 
     def fallback_strategy(self):
         return random.choice([True, False])
+    
+    def execute(self):
+        entity = self.get_wikidata(self.features['entity'], 'entity')
+        result = self.primary_strategy()
+        if result is None:
+            result = self.fallback_strategy()
+        return result
 
 
 class ListQuestion(Question):
