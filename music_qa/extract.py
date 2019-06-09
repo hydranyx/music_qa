@@ -1,7 +1,7 @@
 from classifier import Question, QuestionType
 import spacy
 
-nlp_spacy = spacy.load('en_core_web_sm')
+nlp_spacy = spacy.load('en')
 
 def extract_features(question, question_type, nlp):
 	nlp_spacy = nlp
@@ -95,7 +95,7 @@ def description_question(question):
 
 	ent = ent.strip()
 
-	return [prop, ent]
+	return {'property': prop, 'entity': ent}
 
 #Getting the words of a specific dependancy (incl. all the compounds in front of it)
 def get_word_by_dep(words, dep_list, dep):
@@ -128,7 +128,7 @@ def get_words_and_dep(question):
     return tokens, types
 
 if __name__ == "__main__":
-	nlp = spacy.load('en_core_web_sm')
-	question = Question('Who is Eminem?', nlp)
-	question.question_type = QuestionType.DESCRIPTION
-	extract_features(question, question.get_question_type(), nlp)
+	nlp = spacy.load('en')
+	question = Question('Did Mozart Play on Violin?', nlp)
+	question.question_type = QuestionType.BOOLEAN
+	print(extract_features(question, question.get_question_type(), nlp))
