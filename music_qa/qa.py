@@ -17,10 +17,8 @@ class Qa:
 
     def answer(self, question):
         """ Answer the provided question if possible. """
-        logging.debug("Answering: %s", question)
-        logging.debug("Preparing: %s", question)
+        logging.info("Preparing answer to: %s", question)
         question = self.extractor.prepare_question(question)
-        print(question.features)
-        logging.debug("Executing query for question: %s", question)
+        logging.info("Executing query for question")
         answer = question.execute()
         return Answer(answer)

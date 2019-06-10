@@ -12,6 +12,7 @@ nltk = "^3.4"
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"
 pylint = "^2.3"
+jupyterlab = "^0.35.6"
 
 [tool.poetry.scripts]
 main = "main:main"

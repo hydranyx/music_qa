@@ -3,6 +3,16 @@ Thesaurus-like lookup for phrases.
 """
 
 
+def entity_special_case(phrase):
+    return phrase
+
+
+def property_special_case(phrase):
+    if "country" in phrase:
+        return "country of origin"
+    return phrase
+
+
 class Thesaurus:
     """ A thesaurus class, allowing for synonym lookup. """
 
