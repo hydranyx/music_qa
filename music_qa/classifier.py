@@ -79,11 +79,16 @@ class Classifier:
         if matches:
             start, end = matches.span()
             sub_question = (question[:start] + question[end:]).strip()
+            for word in ["have", "make", "receive"]:
+                matches = re.search(word, sub_question)
+                if matches:
+                    start, end = matches.span()
+                    sub_question = (sub_question[:start] + sub_question[end:]).strip()
             entity = extract_entity(sub_question)
             property = extract_property(sub_question)
             logging.info("(entity, property) = %s", (entity, property))
             if entity and property:
-                return CountQuestion(question)
+                return CountQuestion(question, entity, property)
         return None
 
     def classify_x_of_y_question(self, question):

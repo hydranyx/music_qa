@@ -51,6 +51,7 @@ class Thesaurus:
             "band": "part of",
             "is in ": "member of",
             "music label": "record label",
+            "kid": "child",
             "written for": "part of",
             "also known as": "nickname",
             "also known as": "pseudonym",
