@@ -37,4 +37,4 @@ class Answer:
         else:
             str_ = str(self.answer)
 
-        return "Answer: " + str_
+        return str_
