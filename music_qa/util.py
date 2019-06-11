@@ -5,6 +5,7 @@ import logging
 
 # TODO don't reload the spacy model
 NLP = spacy.load("en")
+NLP.vocab["name"].is_stop = False
 
 
 def extract_entity(question):
@@ -127,9 +128,8 @@ def extract_property(question):
         if property_span:
             return property_span[0].text
 
-    # Assert that the question is not empty
-    # TODO consider error handling
-    assert question
+    if not question:
+        return None
 
     # If there is no property
     if not property_span:
@@ -294,6 +294,12 @@ def extract_property_boolean(question):
     # Prepare the document
     doc = NLP(question)
 
+    filtered = [token for token in doc if not token.is_stop]
+
+    if filtered:
+        if len(filtered) == 1:
+            return filtered[0].text
+
     # Extract the possible properties
     property_span = [
         chunk for chunk in doc.noun_chunks if chunk.root.tag_ in ["NN", "NNS"]
@@ -305,9 +311,8 @@ def extract_property_boolean(question):
         if property_span:
             return property_span[0].text
 
-    # Assert that the question is not empty
-    # TODO consider error handling
-    assert question
+    if not question:
+        return None
 
     # If there is no property
     if not property_span:
