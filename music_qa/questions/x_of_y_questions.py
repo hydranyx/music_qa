@@ -97,3 +97,23 @@ class XofYWhereQuestion(XofYQuestion):
 class XofYHowQuestion(XofYQuestion):
     def __init__(self, question, entity, property):
         super(XofYHowQuestion, self).__init__(question, entity, property)
+
+    def primary_strategy(self):
+        property = property_special_case(self.property)
+        entity = entity_special_case(self.entity)
+        property_map = self.mapper.get_closest_map(
+            "cause of {}".format(property), QueryType.PROPERTY
+        )
+        if not property_map:
+            property_map = self.mapper.get_closest_map(property, QueryType.PROPERTY)
+
+        entity_map = self.mapper.get_closest_map(entity, QueryType.ENTITY)
+
+        if not property_map or not entity_map:
+            return None
+
+        property_uri = property_map["uri"]
+        entity_uri = entity_map["uri"]
+
+        query = self.query.format(property_uri=property_uri, entity_uri=entity_uri)
+        return run_query(query)

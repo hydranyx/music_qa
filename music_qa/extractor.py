@@ -44,11 +44,6 @@ class Extractor:
                     lemma = "born"
                 elif token.text.lower() == "buried":
                     lemma = "buried"
-                elif token.text.lower() == "die":
-                    # Special case: {DIE}
-                    # The lemma below is not strictly speaking correct, however
-                    # it is useful later down the pipeline.
-                    lemma = "death"
                 elif token.text == "Queen":
                     # Special case: Queen
                     # As our system is specialized for Music queries we should consider the lemma of Queen to be "queen".
