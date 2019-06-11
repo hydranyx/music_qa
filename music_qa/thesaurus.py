@@ -16,7 +16,7 @@ def property_special_case(phrase):
         return "birth"
     if phrase == "buried":
         return "burial"
-    if phrase in ["member", "band member"]:
+    if "member" in phrase:
         return "has part"
     return phrase
 
