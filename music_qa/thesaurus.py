@@ -60,32 +60,7 @@ class Thesaurus:
             'signature look':'wears',
             'instruments':'instrument',
             'sickness':'medical condition',
-            'tempo':'beats per minute',
-            '':'',
-            '':'',
-            '':'',
-            '':'',
-            '':'',
-            '':'',
-            '':'',
-            '':'',
-            '':'',
-            '':'',
-            '':'',
-            '':'',
-            '':'',
-            '':'',
-            '':'',
-            '':'',
-            '':'',
-            '':'',
-            '':'',
-            '':'',
-            '':'',
-            '':'',
-            '':'',
-            '':'',
-        }
+            'tempo':'beats per minute'}
 
     def add_synonyms(self, synonym_set):
         """ Add a set of synonyms to the thesaurus. """
