@@ -8,6 +8,7 @@ authors = ["prime <jordis1995@live.nl>"]
 python = "^3.5"
 spacy = "^2.1"
 nltk = "^3.4"
+requests = "^2.22"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"
