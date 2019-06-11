@@ -64,8 +64,11 @@ def extract_entity(question):
     # If the entity is a compound
     # TODO this should be generalized
     if entity.root.dep_ == "conj":
-        # Combine text
-        entity = ents[-2].text + " and " + ents[-1].text
+        if len(ents) == 1:
+            entity = ents[0].text
+        elif len(ents) > 1:
+            # Combine text
+            entity = ents[-2].text + " and " + ents[-1].text
     else:
         subdoc = NLP(entity.text)
         # Recombine the words

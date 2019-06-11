@@ -10,22 +10,14 @@ def entity_special_case(phrase):
 def property_special_case(phrase):
     if "country" in phrase:
         return "country of origin"
-    if phrase == "die":
-        return "death"
-    if phrase == "born":
-        return "birth"
-    if phrase == "buried":
-        return "burial"
     if "member" in phrase:
         return "has part"
-    if phrase == "invent":
-        return "inventor"
-    if phrase == "sing":
-        return "perform"
-    if phrase == "found":
-        return "founder"
-    if phrase == "compose":
-        return "composer"
+
+    thasaurus = Thesaurus().thasaurus
+    for key in thasaurus:
+        if phrase == key:
+            return thasaurus[key]
+
     return phrase
 
 
@@ -39,16 +31,24 @@ class Thesaurus:
         ]
 
         self.thasaurus = {
+            "die": "death",
+            "born": "birth",
+            "buried": "burial",
+            "invent": "inventor",
+            "compose": "composer",
+            "sing": "perform",
+            "found": "founder",
             "originated": "country of origin",
             "originate": "country of origin",
             "originate in": "country of origin",
-            "come from": "country of origin",
+            "come": "country of origin",
             "members": "has part",
             "member": "has part",
             "are in": "has part",
             "play in": "member of",
             "play": "member of",
-            "band": "member of",
+            "band member": "member of",
+            "band": "part of",
             "is in ": "member of",
             "music label": "record label",
             "written for": "part of",
@@ -73,21 +73,3 @@ class Thesaurus:
             "sickness": "medical condition",
             "tempo": "beats per minute",
         }
-
-    def add_synonyms(self, synonym_set):
-        """ Add a set of synonyms to the thesaurus. """
-        self.thesaurus.append(synonym_set)
-
-    def get_synonyms(self, phrase):
-        """ Get the list of synonyms for a phrase. If the phrase does not
-        exist in the thesaurus, then the result is an empty list. """
-
-        # Find the first set of phrases associated with the provided
-        # phrase.
-
-        synonyms = next(filter(lambda synonyms: phrase in synonyms, self.thesaurus), {})
-
-        # Remove the provided phrase from the set
-        synonyms.discard(phrase)
-
-        return list(synonyms)
