@@ -22,6 +22,7 @@ class Answer:
             else:
                 str_ = "No"
         elif isinstance(self.answer, list) and len(self.answer) > 1:
+            str_ = ""
             for val in self.answer:
                 str_ = str_ + val + "\t"
                 str_.strip()
