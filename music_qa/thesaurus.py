@@ -10,6 +10,12 @@ def entity_special_case(phrase):
 def property_special_case(phrase):
     if "country" in phrase:
         return "country of origin"
+    if phrase == "die":
+        return "death"
+    if phrase == "born":
+        return "birth"
+    if phrase == "bury":
+        return "burial"
     return phrase
 
 

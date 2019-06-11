@@ -19,9 +19,9 @@ class DescribeEntityQuestion(Question):
         label = mapping["label"]
         description = mapping["description"]
         if description:
-            return "{}".format(label)
-        else:
             return "{}: {}".format(label, description)
+        else:
+            return "{}".format(label)
 
     def extract_entity(self):
         pass
@@ -41,9 +41,9 @@ class DescribePropertyQuestion(Question):
         label = mapping["label"]
         description = mapping["description"]
         if description:
-            return "{}".format(label)
-        else:
             return "{}: {}".format(label, description)
+        else:
+            return "{}".format(label)
 
     def extract_property(self):
         pass
