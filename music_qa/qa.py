@@ -15,16 +15,17 @@ class Qa:
         logging.info("Starting QA system")
         self.extractor = Extractor()
 
-    def answer(self, question):
+    def answer(self, question_text):
         """ Answer the provided question if possible. """
-        logging.info("Preparing answer to: %s", question)
-        question = self.extractor.prepare_question(question)
-        if question:
-            logging.info("Executing query for question")
-            answer = question.execute()
-            return Answer(answer)
-        else:
-            logging.info(
-                "Question could not be classified. Try a different formulation?"
-            )
-            return Answer(None)
+        if question_text:
+            logging.info("Preparing answer to: %s", question_text)
+            question = self.extractor.prepare_question(question_text)
+            if question:
+                logging.info("Executing query for question")
+                answer = question.execute()
+                return Answer(answer)
+            else:
+                logging.info(
+                    "Question could not be classified. Try a different formulation?"
+                )
+        return Answer(None)
