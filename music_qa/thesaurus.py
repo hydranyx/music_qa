@@ -14,6 +14,8 @@ def property_special_case(phrase):
         return "death"
     if phrase == "born":
         return "birth"
+    if phrase == "bury":
+        return "burial"
     return phrase
 
 
