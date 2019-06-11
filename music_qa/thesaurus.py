@@ -12,6 +12,8 @@ def property_special_case(phrase):
         return "country of origin"
     if "member" in phrase:
         return "has part"
+    if "death" in phrase:
+        phrase = "die"
 
     thasaurus = Thesaurus().thasaurus
     for key in thasaurus:
