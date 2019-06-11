@@ -88,6 +88,20 @@ def extract_property(question):
     """ Extracts the property from a question. """
     # Extract the entity to simplify property extraction
     entity = extract_entity(question)
+
+    # Prepare the document
+    doc = NLP(question)
+    entity_number = next((token.i for token in doc if token.text == entity), None)
+
+    print(entity)
+    for token in doc:
+        print(token)
+    if entity_number:
+        # one thing left after the entity
+        if len(doc) == entity_number + 2:
+            if doc[entity_number + 1].tag_[0] == "V":
+                return doc[entity_number + 1].text
+
     if entity:
         # Remove the entity from the question
         idx = question.rfind(entity)
@@ -255,6 +269,18 @@ def extract_property_boolean(question):
     """ Extracts the property from a question. """
     # Extract the entity to simplify property extraction
     entity = extract_entity_boolean(question)
+
+    # Prepare the document
+    doc = NLP(question)
+
+    entity_number = next((token.i for token in doc if token.text == entity), None)
+    print("here", entity_number)
+    if entity_number:
+        # one thing left after the entity
+        if len(doc) == entity_number + 2:
+            if doc[entity_number + 1].tag_[0] == "V":
+                return doc[entity_number + 1].text
+
     if entity:
         # Remove the entity from the question
         idx = question.rfind(entity)

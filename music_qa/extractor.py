@@ -42,6 +42,8 @@ class Extractor:
                     # Special case: {BORN}
                     # The default spaCy lemmatizer treats the lemma as "bear"
                     lemma = "born"
+                elif token.text.lower() == "buried":
+                    lemma = "buried"
                 elif token.text.lower() == "die":
                     # Special case: {DIE}
                     # The lemma below is not strictly speaking correct, however
