@@ -21,10 +21,13 @@ class Answer:
                 str_ = "Answer: Yes"
             else:
                 str_ = "Answer: No"
-        else:
+        elif isinstance(self.answer, list) and len(self.answer) > 1:
             str_ = "Answer: "
             for i in range(len(self.answer)):
                 str_ = str_ + self.answer[i] + "\t"
-                str_.strip()
+                str_.strip() 
+        else:
+            str_ = "Answer: " + str(self.answer)
+    
 
         return str_

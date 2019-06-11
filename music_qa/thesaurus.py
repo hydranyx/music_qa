@@ -72,7 +72,9 @@ class Thesaurus:
             "instruments": "instrument",
             "sickness": "medical condition",
             "tempo": "beats per minute",
-            "founder": "founded by"
+            "founder": "founded by",
+            "year": "inception",
+            "name": "birth name"
         }
 
     def add_synonyms(self, synonym_set):
