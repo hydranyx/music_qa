@@ -15,6 +15,19 @@ logging.basicConfig(
 )
 
 
+def handle_input_text(line):
+    splits = line.split("\t")
+    id = None
+
+    if len(splits) == 1:
+        question = splits[0]
+    else:
+        id = splits[0]
+        question = splits[1]
+
+    return (id, question.rstrip())
+
+
 def main():
     """ Main program. """
 
@@ -23,12 +36,15 @@ def main():
 
     # Iterate through all the lines provided by the user
     for line in sys.stdin:
-        # Strip the trailing newline
-        question = line.rstrip()
+        # Extract the question text (and id) from the line
+        (id, question) = handle_input_text(line)
         # Answer the question
         answer = qa_system.answer(question)
         # Print the answer
-        print(answer)
+        if id:
+            print("{}\t{}".format(id, answer))
+        else:
+            print(answer)
 
 
 if __name__ == "__main__":
