@@ -22,5 +22,9 @@ class Answer:
             else:
                 str_ = "Answer: No"
         else:
-            str_ = "Answer: " + str(self.answer)
+            str_ = "Answer: "
+            for val in self.answer:
+                str_ = str_ + val + "\t"
+            str_.strip()
+
         return str_
