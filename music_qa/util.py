@@ -96,7 +96,7 @@ def extract_property(question):
     if entity_number:
         # one thing left after the entity
         if len(doc) == entity_number + 2:
-            if doc[entity_number + 1].tag_[0] == "V":
+            if doc[entity_number + 1].pos_ == "VERB":
                 return doc[entity_number + 1].text
 
     if entity:
@@ -109,6 +109,12 @@ def extract_property(question):
 
     # Prepare the document
     doc = NLP(question)
+
+    filtered = [token for token in doc if not token.is_stop]
+
+    if filtered:
+        if len(filtered) == 1:
+            return filtered[0].text
 
     # Extract the possible properties
     property_span = [
@@ -274,7 +280,7 @@ def extract_property_boolean(question):
     if entity_number:
         # one thing left after the entity
         if len(doc) == entity_number + 2:
-            if doc[entity_number + 1].tag_[0] == "V":
+            if doc[entity_number + 1].pos_ == "VERB":
                 return doc[entity_number + 1].text
 
     if entity:

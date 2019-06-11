@@ -18,6 +18,8 @@ def property_special_case(phrase):
         return "burial"
     if "member" in phrase:
         return "has part"
+    if phrase == "invent":
+        return "inventor"
     return phrase
 
 

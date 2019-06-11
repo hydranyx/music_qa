@@ -19,6 +19,12 @@ class Qa:
         """ Answer the provided question if possible. """
         logging.info("Preparing answer to: %s", question)
         question = self.extractor.prepare_question(question)
-        logging.info("Executing query for question")
-        answer = question.execute()
-        return Answer(answer)
+        if question:
+            logging.info("Executing query for question")
+            answer = question.execute()
+            return Answer(answer)
+        else:
+            logging.info(
+                "Question could not be classified. Try a different formulation?"
+            )
+            return Answer(None)

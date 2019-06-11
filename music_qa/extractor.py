@@ -48,6 +48,11 @@ class Extractor:
                     # Special case: Queen
                     # As our system is specialized for Music queries we should consider the lemma of Queen to be "queen".
                     lemma = "Queen"
+                elif token.text == "Rhapsody":
+                    # Special case: Bohemian Rhapsody
+                    # spaCy's entity detector is used here, it can't detect this when correctly spelled (when using "en_core_web_sm")
+                    # So we misspell it (which it can detect correctly)
+                    lemma = "Rapsody"
                 elif token.dep_ == "amod":
                     lemma = token.text.lower()
                 else:

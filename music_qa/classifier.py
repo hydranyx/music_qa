@@ -64,14 +64,13 @@ class Classifier:
             None,
         )
         if elem:
-            entity = extract_entity(question)
-            property = extract_property(question)
-
-            if property is None and entity:
-                return DescribeEntityQuestion(question, entity)
-
-            if property and entity is None:
-                return DescribePropertyQuestion(question, property)
+            if len(doc) >= elem.i and doc[elem.i + 1].text == "be":
+                entity = extract_entity(question)
+                property = extract_property(question)
+                if property is None and entity:
+                    return DescribeEntityQuestion(question, entity)
+                if property and entity is None:
+                    return DescribePropertyQuestion(question, property)
         return None
 
     def classify_count_question(self, question):
