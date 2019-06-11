@@ -8,11 +8,11 @@ import sys
 from music_qa import MusicQa
 
 # Un-comment to see debug logging
-logging.basicConfig(
-    format="%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s",
-    datefmt="%Y-%m-%d:%H:%M:%S",
-    level=logging.INFO,
-)
+# logging.basicConfig(
+#     format="%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s",
+#     datefmt="%Y-%m-%d:%H:%M:%S",
+#     level=logging.INFO,
+# )
 
 
 def handle_input_text(line):
