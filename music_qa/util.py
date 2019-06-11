@@ -91,7 +91,10 @@ def extract_property(question):
     if entity:
         # Remove the entity from the question
         idx = question.rfind(entity)
-        question = question[:idx] + question[idx + len(entity) :]
+        if question[idx + len(entity) : idx + len(entity) + 2] == "'s":
+            question = question[:idx] + question[idx + len(entity) + 2 :]
+        else:
+            question = question[:idx] + question[idx + len(entity) :]
 
     # Prepare the document
     doc = NLP(question)
@@ -255,7 +258,10 @@ def extract_property_boolean(question):
     if entity:
         # Remove the entity from the question
         idx = question.rfind(entity)
-        question = question[:idx] + question[idx + len(entity) :]
+        if question[idx + len(entity) : idx + len(entity) + 2] == "'s":
+            question = question[:idx] + question[idx + len(entity) + 2 :]
+        else:
+            question = question[:idx] + question[idx + len(entity) :]
 
     # Prepare the document
     doc = NLP(question)
