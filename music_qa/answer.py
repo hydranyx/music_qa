@@ -3,6 +3,7 @@ A module containing the Answer intermediary class.
 """
 import re
 
+
 class Answer:
     """
     A class handling an answer and its display.
@@ -16,7 +17,7 @@ class Answer:
             return "No answer found."
         elif isinstance(self.answer, list) and len(self.answer) == 1:
             str_ = str(self.answer[0])
-            
+
             regex = r"([0-9\-]*)"
             date = re.search(regex, str_)
 
