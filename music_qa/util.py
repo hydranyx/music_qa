@@ -93,9 +93,6 @@ def extract_property(question):
     doc = NLP(question)
     entity_number = next((token.i for token in doc if token.text == entity), None)
 
-    print(entity)
-    for token in doc:
-        print(token)
     if entity_number:
         # one thing left after the entity
         if len(doc) == entity_number + 2:
@@ -274,7 +271,6 @@ def extract_property_boolean(question):
     doc = NLP(question)
 
     entity_number = next((token.i for token in doc if token.text == entity), None)
-    print("here", entity_number)
     if entity_number:
         # one thing left after the entity
         if len(doc) == entity_number + 2:

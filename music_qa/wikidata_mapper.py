@@ -40,6 +40,12 @@ class WikidataMapper:
                     "label": "Queen",
                     "uri": "Q15862",
                 }
+            elif phrase == "Prince":
+                return {
+                    "description": "American singer, songwriter, musician and actor",
+                    "label": "Prince",
+                    "uri": "Q7542",
+                }
 
         # Get the possible mappings
         maps = self.get_maps(phrase, query_type)
