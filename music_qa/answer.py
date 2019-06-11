@@ -29,7 +29,11 @@ class Answer:
             else:
                 str_ = "No"
         elif isinstance(self.answer, list) and len(self.answer) > 1:
+<<<<<<< HEAD
             str_ = ''
+=======
+            str_ = ""
+>>>>>>> d0a27de91cd271d9f27ba5ccd21d1b5d475477de
             for val in self.answer:
                 str_ = str_ + val + "\t"
                 str_.strip()

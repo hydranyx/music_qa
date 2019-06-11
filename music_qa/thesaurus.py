@@ -12,6 +12,8 @@ def property_special_case(phrase):
         return "country of origin"
     if "member" in phrase:
         return "has part"
+    if "death" in phrase:
+        phrase = "die"
 
     thasaurus = Thesaurus().thasaurus
     for key in thasaurus:
@@ -53,8 +55,9 @@ class Thesaurus:
             "music label": "record label",
             "kid": "child",
             "written for": "part of",
-            "also known as": "nickname",
-            "also known as": "pseudonym",
+            "nickname": "also known as",
+            "pseudonym": "also known as",
+            "short name": "also known as",
             "known for": "notable work",
             "best known for": "notable work",
             "famous work": "notable work",
