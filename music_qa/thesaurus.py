@@ -74,7 +74,9 @@ class Thesaurus:
             "tempo": "beats per minute",
             "founder": "founded by",
             "year": "inception",
-            "name": "birth name"
+            "name": "birth name",
+            "parts": "has part",
+            "part": "has part", 
         }
 
     def add_synonyms(self, synonym_set):
