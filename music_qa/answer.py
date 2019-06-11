@@ -13,20 +13,19 @@ class Answer:
 
     def __str__(self):
         if self.answer is None:
-            str_ = "No answer found."
+            return "No answer found."
         elif isinstance(self.answer, list) and len(self.answer) == 1:
-            str_ = "Answer:" + str(self.answer[0])
+            str_ = str(self.answer[0])
         elif isinstance(self.answer, bool):
             if self.answer:
-                str_ = "Answer: Yes"
+                str_ = "Yes"
             else:
-                str_ = "Answer: No"
+                str_ = "No"
         elif isinstance(self.answer, list) and len(self.answer) > 1:
-            str_ = "Answer: "
             for val in self.answer:
                 str_ = str_ + val + "\t"
                 str_.strip()
         else:
-            str_ = "Answer: " + str(self.answer)
+            str_ = str(self.answer)
 
-        return str_
+        return "Answer: " + str_
