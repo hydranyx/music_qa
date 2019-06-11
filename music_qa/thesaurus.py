@@ -16,6 +16,8 @@ def property_special_case(phrase):
         return "birth"
     if phrase == "buried":
         return "burial"
+    if phrase in ["member", "band member"]:
+        return "has part"
     return phrase
 
 
@@ -23,44 +25,46 @@ class Thesaurus:
     """ A thesaurus class, allowing for synonym lookup. """
 
     def __init__(self):
-        self.thesaurus = [ 
-            {"birth name", "real name", "given name"}, # <-- how it is now
+        self.thesaurus = [
+            {"birth name", "real name", "given name"},  # <-- how it is now
             {"occupation", "play on", "job"},
         ]
 
-        self.thasaurus = { 'originated':'country of origin',
-            'originate':'country of origin',
-            'originate in':'country of origin',
-            'come from':'country of origin',
-            'members':'has part',
-            'member':'has part',
-            'are in':'has part',
-            'play in':'member of',
-            'play':'member of',
-            'band':'member of',
-            'is in ':'member of',
-            'music label':'record label',
-            'written for':'part of',
-            'also known as':'nickname',
-            'also known as':'pseudonym',
-            'known for':'notable work',
-            'best known for':'notable work',
-            'famous work':'notable work',
-            'known work':'notable work',
-            'famous for':'notable work',
-            'best known work':'notable work',
-            'play':'instrument',
-            'start':'inception',
-            'real name':'birth name',
-            'given name':'birth name',
-            'made':'has parts',
-            'made of':'has parts',
-            'main parts':'has parts',
-            'look':'wears',
-            'signature look':'wears',
-            'instruments':'instrument',
-            'sickness':'medical condition',
-            'tempo':'beats per minute'}
+        self.thasaurus = {
+            "originated": "country of origin",
+            "originate": "country of origin",
+            "originate in": "country of origin",
+            "come from": "country of origin",
+            "members": "has part",
+            "member": "has part",
+            "are in": "has part",
+            "play in": "member of",
+            "play": "member of",
+            "band": "member of",
+            "is in ": "member of",
+            "music label": "record label",
+            "written for": "part of",
+            "also known as": "nickname",
+            "also known as": "pseudonym",
+            "known for": "notable work",
+            "best known for": "notable work",
+            "famous work": "notable work",
+            "known work": "notable work",
+            "famous for": "notable work",
+            "best known work": "notable work",
+            "play": "instrument",
+            "start": "inception",
+            "real name": "birth name",
+            "given name": "birth name",
+            "made": "has parts",
+            "made of": "has parts",
+            "main parts": "has parts",
+            "look": "wears",
+            "signature look": "wears",
+            "instruments": "instrument",
+            "sickness": "medical condition",
+            "tempo": "beats per minute",
+        }
 
     def add_synonyms(self, synonym_set):
         """ Add a set of synonyms to the thesaurus. """
