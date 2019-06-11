@@ -20,6 +20,12 @@ def property_special_case(phrase):
         return "has part"
     if phrase == "invent":
         return "inventor"
+    if phrase == "sing":
+        return "perform"
+    if phrase == "found":
+        return "founder"
+    if phrase == "compose":
+        return "composer"
     return phrase
 
 

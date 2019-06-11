@@ -53,6 +53,10 @@ class Extractor:
                     # spaCy's entity detector is used here, it can't detect this when correctly spelled (when using "en_core_web_sm")
                     # So we misspell it (which it can detect correctly)
                     lemma = "Rapsody"
+                elif token.lemma_ == "own":
+                    # Special case: {OWN}
+                    # owner is more useful in these cases
+                    lemma = "owner"
                 elif token.dep_ == "amod":
                     lemma = token.text.lower()
                 else:
