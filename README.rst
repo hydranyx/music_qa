@@ -3,6 +3,7 @@ Language Speech Technology: Music QA System
 |Python Versions|
 
 This project was setup using `poetry`_. You can setup the dependencies specified in the `pyproject.toml`_ file manually, but using ``poetry`` is recommended.
+You can find the report here: `report.pdf <report.pdf>`_
 
 Setup using ``poetry``
 --------------------
